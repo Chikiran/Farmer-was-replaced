@@ -1,0 +1,11 @@
+def harvestify():
+	if can_harvest():
+		harvest()
+
+def to_till_or_not_to_till():
+	if get_ground_type() != Grounds.Soil:
+		till()
+		
+def waterfy():
+	if get_water() <= WATER_LEVEL:
+		use_item(Items.Water_Tank)
