@@ -1,0 +1,76 @@
+def farm_hay():
+	for x in range(get_world_size()):
+		for y in range(get_world_size()):
+			harvestify()
+			move(North)
+		move(East)
+
+def farm_wood():
+	while num_items(Items.Wood) < LIMIT:
+		counter = 0
+		for x in range(get_world_size()):
+			for y in range(get_world_size()):
+				harvestify()
+				if counter % 2 == 0:
+					plant(Entities.Tree)
+				else:
+					plant(Entities.Bush)
+				move(North)
+				harvestify()
+				counter += 1
+			move(East)
+			
+			if WORLD_EVEN == True:
+				counter += 1
+	return
+
+def farm_carrot():
+	while num_items(Items.Wood) > MIN_WOOD and num_items(Items.Hay) > MIN_HAY:
+		for x in range(get_world_size()):
+			for y in range(get_world_size()):
+				harvestify()
+
+				if num_items(Items.Carrot) < LIMIT:
+					harvestify()
+					
+					# To check carrot seeds and trade if necessary
+					if num_items(Items.Carrot_Seed) < MIN_SEEDS:
+						trade(Items.Carrot_Seed, SEEDS_TB)
+						
+					# Till and Water
+					if not to_till_or_not_to_till() and not waterfy():
+						plant(Entities.Carrots)
+					
+					move(North)
+					harvestify()
+				
+				elif num_items(Items.Carrot) >= LIMIT:
+					return
+			move(East)
+	return
+
+# To be Updated
+def farm_pumpkin():
+	while num_items(Items.Wood) > MIN_WOOD and num_items(Items.Hay) > MIN_HAY and num_items(Items.Carrot) > MIN_CARROTS:
+		for x in range(get_world_size()):
+			for y in range(get_world_size()):
+				harvestify()
+
+				if num_items(Items.Pumpkin) < LIMIT:
+					harvestify()
+					
+					# To check carrot seeds and trade if necessary
+					if num_items(Items.Pumpkin_Seed) < MIN_SEEDS:
+						trade(Items.Pumpkin_Seed, SEEDS_TB)
+						
+					# Till and Water
+					if not to_till_or_not_to_till() and not waterfy():
+						plant(Entities.Pumpkin)
+					
+					move(North)
+					harvestify()
+				
+				elif num_items(Items.Pumpkin) >= LIMIT:
+					return
+			move(East)
+	return
