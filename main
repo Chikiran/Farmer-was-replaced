@@ -1,0 +1,62 @@
+MIN_HAY = 100
+MIN_WOOD = 100
+MIN_CARROTS = 100
+# Minimum Number of seeds in Inventory
+MIN_SEEDS = 5
+# Seeds to buy per trade
+SEEDS_TB = 5
+# Minimum Water	Level before adding water to a tile again
+WATER_LEVEL = 0.25
+# Limit for requirement item
+REQ_LIMIT = 1000
+
+# Used for the every other tile thingie
+WORLD_EVEN = False
+
+if get_world_size() % 2 == 0:
+	WORLD_EVEN = True
+
+# Product to farm ex. Items.Hay
+PRODUCT = Items.Carrot
+# To initialize
+CURRENT_ITEM = PRODUCT
+while True:
+	
+	# Limit for chosen product before stopping operation
+	LIMIT = 100000
+	
+	clear()
+	if PRODUCT == Items.Carrot:
+		if num_items(Items.Wood) < MIN_WOOD:
+			CURRENT_ITEM = Items.Wood
+			LIMIT = REQ_LIMIT 
+		elif num_items(Items.Hay) < MIN_HAY:
+			CURRENT_ITEM = Entities.Grass
+			LIMIT = REQ_LIMIT
+	elif num_items(Items.Carrot) < MIN_CARROTS and PRODUCT == Items.Pumpkin:
+		CURRENT_ITEM = Items.Carrot
+		LIMIT = REQ_LIMIT
+	else:
+		if PRODUCT != None:
+			CURRENT_ITEM = PRODUCT
+		elif PRODUCT == None:
+			if num_items(Items.Hay) < LIMIT:
+				CURRENT_ITEM = Items.Hay
+			elif num_items(Items.Wood) < LIMIT:
+				CURRENT_ITEM = Items.Wood
+			elif num_items(Items.Carrot) < LIMIT:
+				CURRENT_ITEM = Items.Carrot
+			elif num_items(Items.Pumpkin) < LIMIT:
+				CURRENT_ITEM = Items.Pumpkin
+
+	
+	if num_items(CURRENT_ITEM) >= LIMIT:
+		do_a_flip()
+		break
+		
+	if CURRENT_ITEM == Items.Hay:
+		farm_hay()
+	elif CURRENT_ITEM == Items.Carrot:
+		farm_carrot()
+	elif CURRENT_ITEM == Items.Wood:
+		farm_wood()
